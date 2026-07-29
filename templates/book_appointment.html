@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Book Appointment</title>
+</head>
+
+<body>
+
+    <h1>Book Appointment</h1>
+
+    <h2>{{ doctor["name"] }}</h2>
+
+    <p>
+        Specialization: {{ doctor["specialization"] }}
+    </p>
+
+    <h3>Available Timings</h3>
+
+    {% for slot in availability %}
+
+    <p>
+        Date: {{ slot["available_date"] }}
+    </p>
+
+    <p>
+        Time:
+        {{ slot["start_time"] }}
+        -
+        {{ slot["end_time"] }}
+    </p>
+
+    <hr>
+
+    {% endfor %}
+
+    <a href="/doctors">
+        <button type="button">Back</button>
+    </a>
+
+</body>
+
+</html>

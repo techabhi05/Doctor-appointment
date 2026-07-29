@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Doctors</title>
+</head>
+
+<body>
+
+    <h1>Available Doctors</h1>
+
+    {% for doctor in doctors %}
+
+    <h2>{{ doctor["name"] }}</h2>
+
+    <p>
+        Specialization:
+        {{ doctor["specialization"] }}
+    </p>
+
+    <a href="/book/{{ doctor['doctor_id'] }}">
+        <button type="button">
+            Book Appointment
+        </button>
+    </a>
+
+    <hr>
+
+    {% endfor %}
+
+    <a href="/patient/dashboard">
+        <button type="button">Back to Dashboard</button>
+    </a>
+
+</body>
+
+</html>
