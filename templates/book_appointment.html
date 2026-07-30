@@ -31,6 +31,19 @@
     </p>
 
     <hr>
+    <form method="POST" action="/book/{{ doctor['doctor_id'] }}">
+
+        <input type="hidden" name="availability_id" value="{{ slot['availability_id'] }}">
+
+        <label>Choose Time:</label>
+
+        <input type="time" name="start_time" required>
+
+        <button type="submit">
+            Book
+        </button>
+
+    </form>
 
     {% endfor %}
 
