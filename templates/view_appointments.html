@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Appointments</title>
+</head>
+
+<body>
+
+    <h1>My Appointments</h1>
+
+    {% if appointments %}
+
+    {% for appointment in appointments %}
+
+    <h3>{{ appointment["patient_name"] }}</h3>
+
+    <p>
+        Date:
+        {{ appointment["appointment_date"] }}
+    </p>
+
+    <p>
+        Time:
+        {{ appointment["start_time"] }}
+        -
+        {{ appointment["end_time"] }}
+    </p>
+
+    <p>
+        Status:
+        {{ appointment["status"] }}
+        {% if appointment["status"] == "Booked" %}
+
+    <form method="POST" action="/doctor/complete_appointment/{{ appointment['appointment_id'] }}">
+        <button type="submit">
+            Complete Appointment
+        </button>
+    </form>
+
+    {% endif %}
+    </p>
+
+    <hr>
+
+    {% endfor %}
+
+    {% else %}
+
+    <h3>No appointments found.</h3>
+
+    {% endif %}
+
+    <a href="/doctor/dashboard">
+        <button>Back</button>
+    </a>
+
+</body>
+
+</html>

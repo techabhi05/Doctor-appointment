@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>
+        Do you want to Confirm Cancellation
+    </h1>
+    <br><br>
+
+    <form method="POST" action="/cancel_appointment/{{ appointment['appointment_id'] }}">
+
+        <button type="submit">YES</button>
+
+    </form>
+
+    <a href="/my_appointments">
+        <button>
+            NO
+        </button>
+    </a>
+
+</body>
+
+</html>

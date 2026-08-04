@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Availability</title>
+</head>
+
+<body>
+
+    <h1>My Availability</h1>
+
+    {% for slot in availability %}
+
+    <p>
+        Date:
+        {{ slot["available_date"] }}
+    </p>
+
+    <p>
+        Time:
+        {{ slot["start_time"] }}
+        -
+        {{ slot["end_time"] }}
+    </p>
+    <form method="POST" action="/doctor/cancel_availability/{{slot['availability_id']}}">
+        <button type="submit">cancel appointment</button>
+    </form>
+
+    <hr>
+
+    {% endfor %}
+
+    <a href="/doctor/dashboard">
+        <button>Back</button>
+    </a>
+
+</body>
+
+</html>

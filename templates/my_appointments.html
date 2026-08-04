@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Appointments</title>
+</head>
+
+<body>
+
+    <h1>My Appointments</h1>
+    <hr>
+
+
+    {% for appointment in appointments %}
+
+    {% if appointment["status"] == "Booked" %}
+
+    <h2>
+        {{ appointment["doctor_name"]}}
+    </h2>
+
+    <p>
+        Specialization: {{ appointment["specialization"] }}
+    </p>
+    <p>
+        Date: {{ appointment["appointment_date"] }}
+    </p>
+
+    <p>
+        Time:
+        {{ appointment["start_time"] }}
+        -
+        {{ appointment["end_time"] }}
+    </p>
+    <p>
+        Status: {{ appointment["status"] }}
+    </p>
+
+
+
+    <form method="POST" action="/confirm_cancellation/{{ appointment['appointment_id'] }}">
+
+        <button type="submit">Cancel Appointment</button>
+
+    </form>
+
+    <hr>
+
+    {% endif %}
+
+
+    {% endfor %}
+    <br><br>
+
+    <a href="/patient/dashboard">
+        <button>
+            Back
+        </button>
+    </a>
+
+</body>
+
+</html>

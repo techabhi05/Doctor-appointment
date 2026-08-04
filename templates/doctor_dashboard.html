@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Doctor Dashboard</title>
+</head>
+
+<body>
+
+    <h1>Welcome, {{ doctor["name"] }}</h1>
+
+    <p>
+        Specialization:
+        {{ doctor["specialization"] }}
+    </p>
+
+    <br>
+
+    <a href="/doctor/add-availability">
+        <button>Add Availability</button>
+    </a>
+
+    <br><br>
+
+    <a href="/doctor/my-availability">
+        <button>View My Availability</button>
+    </a>
+
+    <br><br>
+
+    <a href="/doctor/view_appointments">
+        <button>View Appointments</button>
+    </a>
+
+    <br><br>
+
+    <a href="/">
+        <button>Logout</button>
+    </a>
+
+</body>
+
+</html>
