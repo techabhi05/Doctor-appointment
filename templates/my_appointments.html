@@ -3,59 +3,65 @@
 
 <head>
     <title>My Appointments</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
     <h1>My Appointments</h1>
-    <hr>
 
+    <table>
 
-    {% for appointment in appointments %}
+        <tr>
+            <th>Doctor</th>
+            <th>Specialization</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
 
-    {% if appointment["status"] == "Booked" %}
+        {% for appointment in appointments %}
 
-    <h2>
-        {{ appointment["doctor_name"]}}
-    </h2>
+        {% if appointment["status"] == "Booked" %}
 
-    <p>
-        Specialization: {{ appointment["specialization"] }}
-    </p>
-    <p>
-        Date: {{ appointment["appointment_date"] }}
-    </p>
+        <tr>
 
-    <p>
-        Time:
-        {{ appointment["start_time"] }}
-        -
-        {{ appointment["end_time"] }}
-    </p>
-    <p>
-        Status: {{ appointment["status"] }}
-    </p>
+            <td>{{ appointment["doctor_name"] }}</td>
 
+            <td>{{ appointment["specialization"] }}</td>
 
+            <td>{{ appointment["appointment_date"] }}</td>
 
-    <form method="POST" action="/confirm_cancellation/{{ appointment['appointment_id'] }}">
+            <td>
+                {{ appointment["start_time"] }}
+                -
+                {{ appointment["end_time"] }}
+            </td>
 
-        <button type="submit">Cancel Appointment</button>
+            <td>{{ appointment["status"] }}</td>
 
-    </form>
+            <td>
+                <form method="POST" action="/confirm_cancellation/{{ appointment['appointment_id'] }}">
+                    <button type="submit">
+                        Cancel Appointment
+                    </button>
+                </form>
+            </td>
 
-    <hr>
+        </tr>
 
-    {% endif %}
+        {% endif %}
 
+        {% endfor %}
 
-    {% endfor %}
-    <br><br>
+    </table>
+
+    <br>
 
     <a href="/patient/dashboard">
-        <button>
-            Back
-        </button>
+        <button>Back</button>
     </a>
 
 </body>

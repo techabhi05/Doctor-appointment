@@ -2,7 +2,11 @@
 <html>
 
 <head>
+
     <title>Doctors</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
 <body>
@@ -11,18 +15,22 @@
 
     {% for doctor in doctors %}
 
-    <h2>{{ doctor["name"] }}</h2>
+    <div class="card ">
 
-    <p>
-        Specialization:
-        {{ doctor["specialization"] }}
-    </p>
+        <h2>{{ doctor["name"] }}</h2>
 
-    <a href="/book/{{ doctor['doctor_id'] }}">
-        <button type="button">
-            Book Appointment
-        </button>
-    </a>
+        <p>
+            Specialization:
+            {{ doctor["specialization"] }}
+        </p>
+
+        <a href="/book/{{ doctor['doctor_id'] }}">
+            <button type="button">
+                Book Appointment
+            </button>
+        </a>
+
+    </div>
 
     <hr>
 

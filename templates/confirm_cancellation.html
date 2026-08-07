@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+
+    <title>Confirm Cancellation</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
 <body>
     <h1>
         Do you want to Confirm Cancellation
@@ -11,13 +19,15 @@
 
         <button type="submit">YES</button>
 
-    </form>
 
-    <a href="/my_appointments">
-        <button>
-            NO
-        </button>
-    </a>
+
+        <a href="/my_appointments">
+            <button>
+                NO
+            </button>
+        </a>
+
+    </form>
 
 </body>
 
