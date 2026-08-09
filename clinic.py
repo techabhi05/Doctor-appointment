@@ -11,44 +11,17 @@ app.secret_key = "clinic_secret_key"
 db = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "prashu@46",
+    password = "abhi@123",
     database = "clinic_management"
 )
 
+# Home route
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/patient", methods=["GET", "POST"])
-def patient():
 
-    if request.method == "POST":
-
-        email = request.form["email"]
-        password = request.form["password"]
-
-        cursor = db.cursor(dictionary=True)
-
-        sql = "SELECT * FROM patients WHERE email = %s"
-
-        cursor.execute(sql, (email,))
-
-        patient = cursor.fetchone()
-
-        print(patient)
-        print(patient.keys() if patient else "No patient")
-
-        if patient:
-             if bcrypt.checkpw(password.encode("utf-8"),patient["Password"].encode("utf-8")):
-                  session["patient_id"] = patient["patient_id"]
-                  return redirect(url_for("patient_dashboard"))
-             else:
-                  return "Thapuuuuu"
-
-    return render_template("patient_login.html")
-
-
-
+# Doctor Login Page
 @app.route("/doctor", methods=["GET", "POST"])
 def doctor():
 
@@ -83,6 +56,8 @@ def doctor():
 
     return render_template("doctor_login.html")
 
+
+# Doctor Register
 @app.route("/doctor/register", methods=["GET", "POST"])
 def doctor_register():
 
@@ -119,6 +94,27 @@ def doctor_register():
         return "Doctor Registered Successfully!"
 
     return render_template("doctor_registration.html")
+
+# Doctor Dashboard
+@app.route("/doctor/dashboard")
+def doctor_dashboard():
+
+    if "doctor_id" not in session:
+        return redirect(url_for("doctor"))
+
+    cursor = db.cursor(dictionary=True)
+
+    sql = "SELECT * FROM doctors WHERE doctor_id = %s"
+    cursor.execute(sql, (session["doctor_id"],))
+
+    doctor = cursor.fetchone()
+
+    return render_template(
+        "doctor_dashboard.html",
+        doctor=doctor
+    )
+
+# Doctor Availability
 @app.route("/doctor/my-availability")
 def my_availability():
 
@@ -144,6 +140,8 @@ def my_availability():
         "my_availability.html",
         availability=availability
     )
+
+# Adding Doctor Avaliability
 @app.route("/doctor/add-availability", methods=["GET", "POST"])
 def add_availability():
 
@@ -177,6 +175,8 @@ def add_availability():
         return redirect(url_for("my_availability"))
 
     return render_template("add_availability.html")
+
+# Cancelling the doctor availability
 @app.route("/doctor/cancel_availability/<int:availability_id>",methods=["POST"])
 def cancel_availability(availability_id):
         cursor = db.cursor()
@@ -190,6 +190,8 @@ def cancel_availability(availability_id):
         db.commit()
     
         return redirect(url_for("my_availability"))
+
+# Doctor viewing his client's appointments
 @app.route("/doctor/view_appointments")
 def view_appointments():
 
@@ -225,23 +227,7 @@ def view_appointments():
 
 
 
-@app.route("/doctor/dashboard")
-def doctor_dashboard():
-
-    if "doctor_id" not in session:
-        return redirect(url_for("doctor"))
-
-    cursor = db.cursor(dictionary=True)
-
-    sql = "SELECT * FROM doctors WHERE doctor_id = %s"
-    cursor.execute(sql, (session["doctor_id"],))
-
-    doctor = cursor.fetchone()
-
-    return render_template(
-        "doctor_dashboard.html",
-        doctor=doctor
-    )
+# Doctor marking the appointment as completed
 @app.route("/doctor/complete_appointment/<int:appointment_id>", methods=["POST"])
 def complete_appointment(appointment_id):
 
@@ -268,10 +254,36 @@ def complete_appointment(appointment_id):
     return redirect(url_for("view_appointments"))
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+# Patient Home
+@app.route("/patient", methods=["GET", "POST"])
+def patient():
 
+    if request.method == "POST":
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        cursor = db.cursor(dictionary=True)
+
+        sql = "SELECT * FROM patients WHERE email = %s"
+
+        cursor.execute(sql, (email,))
+
+        patient = cursor.fetchone()
+
+        print(patient)
+        print(patient.keys() if patient else "No patient")
+
+        if patient:
+             if bcrypt.checkpw(password.encode("utf-8"),patient["Password"].encode("utf-8")):
+                  session["patient_id"] = patient["patient_id"]
+                  return redirect(url_for("patient_dashboard"))
+             else:
+                  return "Thapuuuuu"
+
+    return render_template("patient_login.html")
+
+# Patient Registering 
 @app.route("/patient/register", methods = ["GET","POST"])
 def patient_registers():
         if request.method == "POST":
@@ -293,16 +305,15 @@ def patient_registers():
 
             return "Patients register successfully"
 
-        return render_template("patient_register.html")
+        return render_template("patient_register.html") 
 
-
+# Patient Dashboard
 @app.route("/patient/dashboard")
 def patient_dashboard():
      print(session.get("patient_id"))
      return render_template("patient_dashboard.html")
 
-
-
+# Patient viewing the doctors
 @app.route("/doctors")
 def view_doctors():
 
@@ -320,6 +331,7 @@ def view_doctors():
     )
 
 
+# Patient booking the appointment
 @app.route("/book/<int:doctor_id>",methods = ["GET","POST"])
 def book_appointment(doctor_id):
 
@@ -413,6 +425,9 @@ def book_appointment(doctor_id):
         availability=availability
     )
 
+
+
+# Patient viewing his appointments
 @app.route("/my_appointments")
 def my_appointments():
 
@@ -444,6 +459,7 @@ def my_appointments():
         appointments=appointments
     )
 
+# Patient cancelling his appointment
 @app.route("/cancel_appointment/<int:appointment_id>", methods=["POST"])
 def cancel_appointment(appointment_id):
 
@@ -461,10 +477,21 @@ def cancel_appointment(appointment_id):
 
     return redirect(url_for("my_appointments"))
 
+
+# Patient confirming his cancellation
 @app.route("/confirm_cancellation/<int:appointment_id>",methods = ["POST"])
 def confirm_cancellation(appointment_id):
      appointment={"appointment_id":appointment_id}
      return render_template("confirm_cancellation.html",appointment=appointment)
+
+
+
+
+
+# About the clinic route
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 
