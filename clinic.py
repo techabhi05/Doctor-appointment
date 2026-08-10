@@ -279,7 +279,11 @@ def patient():
                   session["patient_id"] = patient["patient_id"]
                   return redirect(url_for("patient_dashboard"))
              else:
-                  return "Thapuuuuu"
+                  return render_template(
+                    "wrong_password.html",
+                    message="Thapu thapuu thapuu",message_type="wrong_password",
+                    url="/patient"
+                )
 
     return render_template("patient_login.html")
 
@@ -365,7 +369,11 @@ def book_appointment(doctor_id):
          appointment_end=end_datetime.time()
 
          if appointment_start < availability_start or appointment_end > availability_end:
-              return "doctor illa kano vade nan magne"
+                  return render_template(
+                              "time_slot_booked.html",
+                              message="Doctor is not available",message_type="doctor_unavailable",
+                              url=f"/book/{doctor_id}"
+                  )
          sql="""
                 select start_time,end_time
                 from appointments
@@ -379,7 +387,11 @@ def book_appointment(doctor_id):
              booked_start= (datetime.min+booked["start_time"]).time()
              booked_end= (datetime.min+booked["end_time"]).time()
              if appointment_start<booked_end and appointment_end>booked_start:
-                  return "this time slot is already booked"
+                  return render_template(
+                              "time_slot_booked.html",
+                              message="Time slot is already booked",message_type="time_slot",
+                              url=f"/book/{doctor_id}"
+                  )
              
 
 
@@ -403,7 +415,11 @@ def book_appointment(doctor_id):
 
          db.commit()
 
-         return "Appointment booked successfully!"
+         return render_template(
+            "wrong_password.html",
+            message="Appointment booked successfully",message_type="appointment_booked",
+            url="/my_appointments"
+            )
 
 
     cursor = db.cursor(dictionary=True)

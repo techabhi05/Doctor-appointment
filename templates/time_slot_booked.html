@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clinic</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="card">
+
+        {% if message_type == "time_slot" %}
+
+             <h1>{{ message }}</h1>
+
+        <a href="{{ url }}">
+            <button>Back</button>
+        </a>
+
+
+        {% elif message_type == "doctor_unavailable" %}
+
+           <h1>{{ message }}</h1>
+
+        <a href="{{ url}}">
+            <button>Back</button>
+        </a>
+
+
+        {% elif message_type == "time_slot" %}
+
+           <h1>{{ message }}</h1>
+
+        <a href="{{ url }}">
+            <button>Show my Apoointments</button>
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

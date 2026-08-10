@@ -1,4 +1,6 @@
-/* Reset */
+/* =========================
+   RESET
+   ========================= */
 
 * {
     margin: 0;
@@ -6,7 +8,10 @@
     box-sizing: border-box;
 }
 
-/* Body */
+
+/* =========================
+   BODY
+   ========================= */
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -14,26 +19,36 @@ body {
     text-align: center;
 }
 
-/* Heading */
+
+/* =========================
+   HEADINGS
+   ========================= */
 
 h1 {
-    color: #6D4C41;
-    margin-top: 40px;
+    color: #5C4033;
+    text-align: center;
+    margin-top: 30px;
     margin-bottom: 30px;
 }
 
-/* Form */
+
+/* =========================
+   FORMS
+   ========================= */
 
 form {
     width: 400px;
-    margin: auto;
+    margin: 20px auto;
     background: #FFFDF7;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Labels */
+
+/* =========================
+   LABELS
+   ========================= */
 
 label {
     display: block;
@@ -44,7 +59,10 @@ label {
     color: #5D4037;
 }
 
-/* Inputs */
+
+/* =========================
+   INPUTS
+   ========================= */
 
 input {
     width: 100%;
@@ -59,7 +77,10 @@ input:focus {
     border-color: #A1887F;
 }
 
-/* Buttons */
+
+/* =========================
+   BUTTONS
+   ========================= */
 
 button {
     width: 40%;
@@ -78,78 +99,130 @@ button:hover {
     background: #A67C52;
 }
 
-/* Links */
+
+/* =========================
+   LINKS
+   ========================= */
 
 a {
     text-decoration: none;
 }
 
-/* Navigation */
+
+/* =========================
+   NAVIGATION BUTTONS
+   ========================= */
 
 .nav-buttons {
-
     margin-top: 30px;
-
 }
 
 .nav-buttons a {
-
     text-decoration: none;
-
 }
 
 .nav-buttons button {
-
     width: 220px;
-
     margin: 10px;
-
 }
+
+
+/* =========================
+   CARDS
+   ========================= */
 
 .card {
-
     width: 450px;
-
     margin: 20px auto;
-
     background: #FFFDF7;
-
     padding: 20px;
-
     border-radius: 12px;
-
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-
 }
+
+
+/* =========================
+   TABLE
+   ========================= */
 
 table {
-
     width: 90%;
-
     margin: 30px auto;
-
     border-collapse: collapse;
-
     background: white;
-
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-
 }
+
+
+/* Table header */
 
 th {
-
     background: #C8A97E;
-
     color: white;
-
     padding: 15px;
-
+    border: 1px solid #E0D6C8;
 }
 
+
+/* Table cells */
+
 td {
-
     padding: 15px;
+    border: 1px solid #E0D6C8;
+    text-align: center;
+}
 
-    border-bottom: 1px solid #ddd;
+
+/* Table row hover */
+
+tr {
+    transition: 0.2s;
+}
+
+tr:hover {
+    background: #FFF8E7;
+}
+
+
+/* =========================
+   BUTTON INSIDE TABLE
+   ========================= */
+
+td button {
+    width: auto;
+    margin-top: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+   ========================= */
+
+@media (max-width: 600px) {
+
+    form {
+        width: 90%;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    table {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+
+    td button {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
 
 }
