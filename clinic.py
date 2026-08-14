@@ -2,18 +2,18 @@ from flask import Flask,render_template,request,redirect,url_for,session
 from datetime import datetime,timedelta
 import mysql.connector
 import bcrypt
+import os
 
 app = Flask(__name__)
 app.secret_key = "clinic_secret_key"
 
-
-
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "abhi@123",
-    database = "clinic_management"
-)
+    host=os.getenv("MYSQLHOST", "localhost"),
+    user=os.getenv("MYSQLUSER", "root"),
+    password=os.getenv("MYSQLPASSWORD", "abhi@123"),
+    database=os.getenv("MYSQLDATABASE", "clinic_management")
+)  
+
 
 # Home route
 @app.route("/")
@@ -287,6 +287,83 @@ def patient():
 
     return render_template("patient_login.html")
 
+# Patient forgot password
+@app.route("/patient/forgot_password_p", methods=["GET", "POST"])
+def forgot_password_p():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+
+        cursor = db.cursor(dictionary=True)
+
+        sql = """
+            SELECT * FROM patients
+            WHERE name = %s AND email = %s
+        """
+
+        cursor.execute(sql, (name, email))
+
+        patient = cursor.fetchone()
+
+        if patient:
+
+            return render_template(
+                "reset_password.html",
+                patient_id = patient["patient_id"]
+            )
+
+        else:
+
+            return render_template(
+                "forgot_password.html",
+                message="Name and email do not match."
+            )
+
+    return render_template("forgot_password.html")
+
+# Resetting the patient password
+@app.route("/patient/reset_password/<int:patient_id>", methods=["POST"])
+def reset_password(patient_id):
+
+    password = request.form["password"]
+    confirm_password = request.form["confirm_password"]
+
+    if password != confirm_password:
+
+        return render_template(
+            "reset_password.html",
+            patient_id=patient_id,
+            message="Passwords do not match."
+        )
+
+    hashed_password = bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt()
+    )
+
+    cursor = db.cursor()
+
+    sql = """
+        UPDATE patients
+        SET password = %s
+        WHERE patient_id = %s
+    """
+
+    cursor.execute(
+        sql,
+        (hashed_password, patient_id)
+    )
+
+    db.commit()
+
+    return render_template(
+        "wrong_password1.html",
+        message="Password changed successfully",
+        url="/patient"
+    )
+
 # Patient Registering 
 @app.route("/patient/register", methods = ["GET","POST"])
 def patient_registers():
@@ -508,7 +585,5 @@ def confirm_cancellation(appointment_id):
 @app.route("/about")
 def about():
     return render_template("about.html")
-
-
 
 app.run(debug=True)
