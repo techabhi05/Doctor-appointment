@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request,redirect,url_for,session
 from datetime import datetime,timedelta
+from urllib.parse import urlparse
 import mysql.connector
 import bcrypt
 import os
@@ -7,13 +8,17 @@ import os
 app = Flask(__name__)
 app.secret_key = "clinic_secret_key"
 
-db = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST", "localhost"),
-    user=os.getenv("MYSQLUSER", "root"),
-    password=os.getenv("MYSQLPASSWORD", "abhi@123"),
-    database=os.getenv("MYSQLDATABASE", "clinic_management")
-)  
+db_url = os.getenv("MYSQL_PUBLIC_URL")
 
+url = urlparse(db_url)
+
+db = mysql.connector.connect(
+    host=url.hostname,
+    port=url.port,
+    user=url.username,
+    password=url.password,
+    database=url.path.lstrip("/")
+)
 
 # Home route
 @app.route("/")
