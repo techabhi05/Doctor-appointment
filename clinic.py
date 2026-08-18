@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,redirect,url_for,session
 from datetime import datetime,timedelta
-from urllib.parse import urlparse
+from urllib.parse import urlparse,unquote
 import mysql.connector
 import bcrypt
 import os
@@ -15,8 +15,8 @@ url = urlparse(db_url)
 db = mysql.connector.connect(
     host=url.hostname,
     port=url.port,
-    user=url.username,
-    password=url.password,
+    user=unquote(url.username),
+    password=unquote(url.password),
     database=url.path.lstrip("/")
 )
 
